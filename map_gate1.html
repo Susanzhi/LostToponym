@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地名服务</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="infowindow.css"/>
+<script src="js/jquery.js"></script>
+<script src="js/html.js"></script>
+</head>
+<body>
+<!--头部-->
+<div id="header">
+  <div class="top">
+    <div class="nav" style="width:1024px">
+        <a style="padding-top: 6px;">
+            <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                <option>城门专题图</option>
+                <option value="map_gate.html">现代城门专题图</option>
+                <option value="map_gate1.html">古代城门专题图</option>
+            </select>
+        </a>
+        <a style="padding-top: 6px;">
+                <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                    <option>寺庙专题图</option>
+                    <option value="map_tempo.html">现代寺庙专题图</option>
+                    <option value="map_tempo1.html">古代寺庙专题图</option>
+                </select>
+            </a>
+        <a href="map_bridge.html">桥梁专题图</a>
+        <a href="map_palace.html">宫殿专题图</a> 
+    </div>
+  </div>
+</div>
+<!--内容部分-->
+<div id="content">
+  <div class="layout ptb_20">
+   <div class="bj_fff">
+    <div class="er_title">
+       <span class="fr">您现在的位置：<a href="index.html">首页</a>><a href="#">古代城门专题地图</a></span>
+       <i class="i0"></i><span class="t">专题地图</span>
+    </div>
+    <div class="line_er"></div>
+    <!--标题-->
+    <div id="content-title" class="container" style="position: relative; height: 100px; background: rgba(219, 208, 144, 0.329)">
+    <br><a class="content-title">金陵城墙——明城墙十三门</a>
+    </div>
+    <div id="content">
+        <div class="layout ptb_20">
+          <div class="summary_box"> <img src="images/gatephoto.jpg" class="img" />
+            <div class="text">
+              <p>明城墙十三门</p>
+              <br></br>
+              <p>  明初建城时，共开城门十三座，即正阳门(今光华门)、通济门、聚宝门(今中华门)、三山门(今水西门)、石城门(今汉中门)、清江门(今清凉门)、定淮门、仪凤门、钟阜门、金川门、神策门(今和平门)、太平门、朝阳门(今中山门)。寓居南京的吴敬梓先生在《儒林外史》记载“三山聚宝临通济，正阳朝阳定太平，神策金川近钟阜，仪凤定淮清石城”，是按逆时针方向排列了京城十三座城门的顺序。风雨沧桑，现在保留下来的只有聚宝门（中华门）、石城门、清凉门、和神策门了，历史变迁中，又新开了许多城门。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="line_er"></div>
+    <div id="container" class="container" style="position: relative; height: 600px;">
+        <div id="paleophotos" style="position:relative;height:600px;opacity:0.7;"class="dragAble"><img src="images/cm.jpg" width="1020px" height="600px" onmousewheel="return bbimg(this)" ondblclick="realsize();"/></div>
+    </div>
+    <div class="line_er"></div>
+    </div>
+</div>
+
+
+</body>
+</html>

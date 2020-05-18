@@ -1,0 +1,364 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地名服务</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="infowindow.css"/>
+<link rel="stylesheet" href="demo-center.css"/>
+<style>
+    html, body, #container {
+        height: 100%;
+        width: 100%;
+    }
+    .amap-icon img {
+        width: 25px;
+        height: 34px;
+    }
+    .input-card .btn {
+        margin-right: 1.2rem;
+        width: 9rem;
+    }
+    .amap-marker{
+        font-size: 13px;
+        font-family:"";
+        font-weight:bold;
+        background-color:rgb(248, 242, 225);
+        color:black;
+    }
+    .input-card .btn:last-child {
+        margin-right: 0;
+    }
+    .amap-marker-label{
+      position: absolute;
+      z-index: 2;
+      border: 1px solid #ccc;
+      background-color: white;
+      white-space: nowrap;
+      cursor: default;
+      padding: 3px;
+      font-size: 12px;
+      line-height: 14px;
+   }
+</style>
+<script src="js/jquery.js"></script>
+<script src="js/html.js"></script>
+</head>
+<body>
+<!--头部-->
+<div id="header">
+  <div class="top">
+    <div class="nav" style="width:1024px">
+        <a style="padding-top: 6px;">
+            <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                <option>城门专题图</option>
+                <option value="map_gate.html">现代城门专题图</option>
+                <option value="map_gate1.html">古代城门专题图</option>
+            </select>
+        </a>
+        <a style="padding-top: 6px;">
+                <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                    <option>寺庙专题图</option>
+                    <option value="map_tempo.html">现代寺庙专题图</option>
+                    <option value="map_tempo1.html">古代寺庙专题图</option>
+                </select>
+            </a>
+        <a href="map_bridge.html">桥梁专题图</a>
+        <a href="map_palace.html">宫殿专题图</a> 
+    </div>
+  </div>
+</div>
+<!--内容部分-->
+<div id="content">
+  <div class="layout ptb_20">
+   <div class="bj_fff">
+    <div class="er_title">
+       <span class="fr">您现在的位置：<a href="index.html">首页</a>><a href="#">现代城门专题地图</a></span>
+       <i class="i0"></i><span class="t">专题地图</span>
+    </div>
+    <div class="line_er"></div>
+    <!--标题-->
+    <div id="content-title" class="container" style="position: relative; height: 100px; background: rgba(219, 208, 144, 0.329)">
+    <br><a class="content-title">金陵城墙——明城墙十三门</a>
+    </div>
+    <div id="content">
+        <div class="layout ptb_20">
+          <div class="summary_box"> <img src="images/gatephoto.jpg" class="img" />
+            <div class="text">
+              <p>明城墙十三门</p>
+              <br></br>
+              <p>  明初建城时，共开城门十三座，即正阳门(今光华门)、通济门、聚宝门(今中华门)、三山门(今水西门)、石城门(今汉中门)、清江门(今清凉门)、定淮门、仪凤门、钟阜门、金川门、神策门(今和平门)、太平门、朝阳门(今中山门)。寓居南京的吴敬梓先生在《儒林外史》记载“三山聚宝临通济，正阳朝阳定太平，神策金川近钟阜，仪凤定淮清石城”，是按逆时针方向排列了京城十三座城门的顺序。风雨沧桑，现在保留下来的只有聚宝门（中华门）、石城门、清凉门、和神策门了，历史变迁中，又新开了许多城门。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="line_er"></div>
+    <div id="container" class="container" style="position: relative; height: 600px;">
+    </div>
+    <div class="input-card">
+        <div>
+            <h4>图例</h4>
+            <img src="images/tuli.png" height="70px" width="128px">
+            <h4>添加覆盖物</h4>
+            <input id="addSeveralOverlay" type="button" class="btn" value="显示明代内城墙"/>
+            <input id="addwall" type="button" class="btn" value="显示外城墙"/>
+            <input id="removeOverlayGroup" type="button" class="btn" value="移除明城墙"/>
+            <input type="button" class="btn" value="显示所有城门" onclick='setStyle(0)'/>
+            <input type="button" class="btn" value="显示已消失的地名" onclick='setStyle(1)'/>
+        </div>
+        </div>
+      </div>
+    <div class="line_er"></div>
+    </div>
+    <div clss="text_box" style="width:1024px;background:transparent">
+  </div> 
+</div>
+
+<div id="footer">
+    <div class="layout">
+    </div>
+</div>
+<!--<script src="./script/loca.js"></script>-->
+<script type="text/javascript" src='data1.js'></script>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.12&key=8dcc840c1b491924f1bd17dc2c85752a"></script>
+        <script src="https://webapi.amap.com/loca?v=1.2.0&key=8dcc840c1b491924f1bd17dc2c85752a"></script>
+<!--引入UI组件库（1.0版本） -->
+<script src="https://webapi.amap.com/ui/1.0/main.js"></script>
+<script type="text/javascript" language="javascript" src="js/demo.js"></script>
+<script src="https://a.amap.com/Loca/static/dist/jquery.min.js"></script>
+<script src="https://a.amap.com/Loca/static/mock/districts.js"></script>
+<script>
+     var map = new AMap.Map('container', {
+      mapStyle: 'amap://styles/fresh',
+        zoom: 13,
+        features: ['bg', 'road'],
+        center: [118.796623,32.059352]
+        //viewMode: '3D'
+    });
+    
+    AMap.plugin([
+        'AMap.ControlBar',
+    ], function(){
+        // 添加 3D 罗盘控制
+        map.addControl(new AMap.ControlBar());
+    });
+    AMap.plugin([
+        'AMap.Scale',
+    ], function(){
+        // 添加 比例尺
+        map.addControl(new AMap.Scale());
+    });
+    var style = [{
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(6,6),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/tempo.png',
+        anchor: new AMap.Pixel(4, 4),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(3, 3),
+        size: new AMap.Size(25, 25)
+    }
+    ];
+    var markers=[];
+    var lnglats=[[118.815931,32.023372],[118.781807,32.012776],[118.803505,32.036488],[118.821689,32.03819],[118.787212,32.070545],[118.772362,32.018772],[118.817598,32.038177],[118.826232,32.03088],[118.786505,32.062715],[118.794632,32.013747],[118.777934,32.013397],[118.792542,32.007996],[118.754196,32.089979],[118.801239,32.025654],[118.812958,32.057934],[118.754815,32.050812],[118.747563,32.091586],[118.787345,32.088915],[118.827347,32.038744],[118.768653,32.029764],[118.746493,32.069292],[118.766962,32.042784],[118.746259,32.057455],[118.742094,32.035982],[118.759870,32.031830],[118.81871,32.046665],[118.793577,32.00613],[118.813293,31.977446],[118.762136,31.990862],[118.795514,31.995041],[118.875647,32.111944],[118.769432,32.027905],[118.836216,31.981932],[118.901909,32.016029],[118.769936,32.115477],[118.753012,32.092891],[118.762945,32.088503]];
+    var labels=['光华门','中华门','西华门','东华门','玄武门','集庆门','午朝门','标营门','高楼门','武定门','长干门','雨花门','新民门','通济门','太平门','清凉门','仪凤门','神策门','中山门','三山门','定淮门','石城门','草场门','江东门','水西门','后宰门','双桥门','夹岗门','安德门','卡子门','尧化门','凤台门','上坊门','沧波门','上元门','钟阜门','金川门'];
+
+
+    for(var i=0;i<lnglats.length;i++){
+        var lnglat=lnglats[i];
+        var marker = new AMap.Marker({
+            content: labels[i],
+            position: new AMap.LngLat(lnglat[0],lnglat[1]),
+            icon: 'temp/gate.png',
+            offset: new AMap.Pixel(-13, -30)
+        })
+        //markers.push(marker);
+        /*marker.setLabel({
+                offset: new AMap.Pixel(20, 20),
+                content: labels[i]
+            })*/
+        marker.setMap(map);
+
+    }
+    
+
+    var mass = new AMap.MassMarks(citys, {
+        opacity: 1.0,
+        zIndex: 111,
+        cursor: 'pointer',
+        style: style
+    });
+
+    var marker1 = new AMap.Marker({content: ' ', map: map});
+
+    mass.on('mouseover', function (e) {
+
+        marker1.setPosition(e.data.lnglat);
+        marker1.setLabel({
+            content: e.data.info
+        })
+    });
+    
+    mass.setMap(map)
+    
+
+    function setStyle(multiIcon) {
+        if (multiIcon) {
+            mass.setStyle(style);
+        } else {
+            mass.setStyle(style[2]);
+        }
+    }
+
+//绘制城墙
+      var polylinePath = [
+        new AMap.LngLat(118.781807,32.012776),
+        new AMap.LngLat(118.777515,32.0137),
+        new AMap.LngLat(118.767044,32.015738),
+        new AMap.LngLat(118.769791,32.02971),
+        new AMap.LngLat(118.768246,32.036841),
+        new AMap.LngLat(118.765328,32.043243),
+        new AMap.LngLat(118.756573,32.0495),
+        new AMap.LngLat(118.751251,32.054883),
+        new AMap.LngLat(118.750049,32.062936),
+        new AMap.LngLat(118.747131,32.070115),
+        new AMap.LngLat(118.746616,32.090914),
+        new AMap.LngLat(118.744856,32.094295),
+        new AMap.LngLat(118.750714,32.095895),
+        new AMap.LngLat(118.75507,32.087133),
+        new AMap.LngLat(118.768202,32.089969),
+        new AMap.LngLat(118.784081,32.088442),
+        new AMap.LngLat(118.788759,32.088566),
+        new AMap.LngLat(118.79016,32.085304),
+        new AMap.LngLat(118.786784,32.084096),
+        new AMap.LngLat(118.787557,32.070823),
+        new AMap.LngLat(118.788673,32.065877),
+        new AMap.LngLat(118.793565,32.065295),
+        new AMap.LngLat(118.796312,32.062458),
+        new AMap.LngLat(118.808838,32.060618),
+        new AMap.LngLat(118.813167,32.058268),
+        new AMap.LngLat(118.819819,32.05514),
+        new AMap.LngLat(118.819921,32.053118),
+        new AMap.LngLat(118.828569,32.050935),
+        new AMap.LngLat(118.828049,32.048185),
+        new AMap.LngLat(118.831568,32.04513),
+        new AMap.LngLat(118.827877,32.039164),
+        new AMap.LngLat(118.825039,32.023498),
+        new AMap.LngLat(118.815856,32.021533),
+        new AMap.LngLat(118.800664,32.023716),
+        new AMap.LngLat(118.795337,32.008921),
+        new AMap.LngLat(118.781807,32.012776)
+    ];
+
+    var polylinePathout = [
+        new AMap.LngLat(118.762136,31.990862),
+        new AMap.LngLat(118.813293,31.977446),
+        new AMap.LngLat(118.836216,31.981932),
+        new AMap.LngLat(118.901909,32.016029),
+        new AMap.LngLat(118.896846,32.062903),
+        new AMap.LngLat(118.875647,32.111944),
+        new AMap.LngLat(118.834189,32.119766),
+        new AMap.LngLat(118.769936,32.115477),
+        new AMap.LngLat(118.747563,32.091586),
+        new AMap.LngLat(118.750366,32.069176),
+        new AMap.LngLat(118.746259,32.057455),
+        new AMap.LngLat(118.759870,32.031830),
+        new AMap.LngLat(118.762136,31.990862)
+    ];
+    var polyline = new AMap.Polyline({
+        path: polylinePath,
+        geodesic: true,
+        lineJoin: 'round',
+        showDir: true,
+        dirColor: 'white',
+        strokeColor: '#660033',
+        outlineColor: 'white',
+        isOutline: true,
+        strokeWeight: 6.0,
+        zIndex: 2
+    });
+    var outpolyline = new AMap.Polyline({
+        path: polylinePathout,
+        geodesic: true,
+        lineJoin: 'round',
+        showDir: true,
+        dirColor: 'white',
+        strokeColor: '#DEB887',
+        outlineColor: 'white',
+        isOutline: true,
+        strokeWeight: 6.0,
+        zIndex: 2
+    });
+
+    var addSeveralOverlayButton = document.getElementById('addSeveralOverlay');
+    var addSeveraloutButton = document.getElementById('addwall');
+
+    addSeveralOverlayButton.onclick = function () {
+        map.add([polyline]);
+    };
+    addSeveraloutButton.onclick=function(){
+        map.add([outpolyline]);
+    }
+    var addSeveralOverlayButton = document.getElementById('removeOverlayGroup');
+
+   removeOverlayGroup.onclick=function() {
+    map.remove([polyline,outpolyline]);
+    }
+    function closeInfoWindow() {
+    map.clearInfoWindow();
+}
+var loca = Loca.create(amap);
+var layer = Loca.visualLayer({
+        eventSupport: true,    // selectStyle 配置需要开启 eventSupport: true
+        container: map,
+        type: 'point',
+        shape: 'image'
+    });
+
+    layer.on('mousemove', function (ev) {
+        // 事件类型
+        var type = ev.type;
+        // 当前元素的原始数据
+        var rawData = ev.rawData;
+        // 原始鼠标事件
+        var originalEvent = ev.originalEvent;
+
+        openInfoWin(map.getMap(), originalEvent, {
+            '名称': rawData.name,
+            '位置': rawData.center,
+            '简介': rawData.introduce,
+            '    ':rawData.info
+        });
+    });
+    layer.on('mouseleave', function (ev) {
+        closeInfoWin();
+    });
+
+
+    var data = [
+    
+    { 'name': '中华门', 'center': '118.781807,32.012776','introduce':'中华门，原名聚宝门，是中国现存规模最大的城门，也是世界上保存最完好、结构最复杂的堡垒瓮城，其建筑规模仅次于通济门（现已不存），有“天下第一瓮城”之称。中华门布局严整、构造独特，是研究中国古代军事设施的重要实物资料。','info':"<a href='introduction.html'>详细介绍</a>"}
+    
+];
+    layer.setData(data, {
+        // 指定经纬度所在字段
+        type: 'json',
+        lnglat: 'center'
+
+    });
+   layer.setOptions({
+    source: function (res) {
+            return 'temp/gate.png';
+        },
+        style: {
+            size: 25
+        }
+    });
+    layer.render();
+</script>
+</body>
+</html>

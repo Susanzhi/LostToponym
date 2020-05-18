@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>海量点</title>
+    <link rel="stylesheet" href="demo-center.css"/>
+    <style>
+        html, body, #container {
+            height: 100%;
+            width: 100%;
+        }
+        .amap-icon img {
+            width: 25px;
+            height: 34px;
+        }
+        .input-card .btn {
+            margin-right: 1.2rem;
+            width: 9rem;
+        }
+        .amap-marker{
+            font-size: 15px;
+            font-family:"";
+            font-weight:bold;
+            background-color:aliceblue;
+            color:black;
+        }
+        .input-card .btn:last-child {
+            margin-right: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="container" class="map" tabindex="0"></div>
+  <div class="input-card">
+    <div>
+        <h4>图例</h4>
+        <img src="images/tuli.png" height="70px" width="128px">
+        <h4>添加覆盖物</h4>
+        <input id="addSeveralOverlay" type="button" class="btn" value="显示明代内城墙"/>
+        <input id="addwall" type="button" class="btn" value="显示外城墙"/>
+        <input id="removeOverlayGroup" type="button" class="btn" value="移除明城墙"/>
+        <input type="button" class="btn" value="显示所有城门" onclick='setStyle(0)'/>
+        <input type="button" class="btn" value="显示已消失的地名" onclick='setStyle(1)'/>
+    </div>
+    </div>
+  </div>
+
+<script type="text/javascript" src='data1.js'></script>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.12&key=8dcc840c1b491924f1bd17dc2c85752a"></script>
+<script type="text/javascript">
+    var map = new AMap.Map('container', {
+      mapStyle: 'amap://styles/fresh',
+        zoom: 13,
+        features: ['bg', 'road'],
+        center: [118.796623,32.059352]
+        //viewMode: '3D'
+    });
+    
+    AMap.plugin([
+        'AMap.ControlBar',
+    ], function(){
+
+        // 添加 3D 罗盘控制
+        map.addControl(new AMap.ControlBar());
+    });
+    AMap.plugin([
+        'AMap.Scale',
+    ], function(){
+
+        // 添加 3D 罗盘控制
+        map.addControl(new AMap.Scale());
+    });
+    var style = [{
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(6,6),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/tempo.png',
+        anchor: new AMap.Pixel(4, 4),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(3, 3),
+        size: new AMap.Size(25, 25)
+    }
+    ];
+    var markers=[];
+    var lnglats=[[118.815931,32.023372],[118.781807,32.012776],[118.803505,32.036488],[118.821689,32.03819],[118.787212,32.070545],[118.772362,32.018772],[118.817598,32.038177],[118.826232,32.03088],[118.786505,32.062715],[118.794632,32.013747],[118.777934,32.013397],[118.792542,32.007996],[118.754196,32.089979],[118.801239,32.025654],[118.812958,32.057934],[118.754815,32.050812],[118.747563,32.091586],[118.787345,32.088915],[118.827347,32.038744],[118.768653,32.029764],[118.746493,32.069292],[118.766962,32.042784],[118.746259,32.057455],[118.742094,32.035982],[118.759870,32.031830],[118.81871,32.046665],[118.793577,32.00613],[118.813293,31.977446],[118.762136,31.990862],[118.795514,31.995041],[118.875647,32.111944],[118.769432,32.027905],[118.836216,31.981932],[118.901909,32.016029],[118.769936,32.115477],[118.753012,32.092891],[118.762945,32.088503]];
+    var labels=['光华门','中华门','西华门','东华门','玄武门','集庆门','午朝门','标营门','高楼门','武定门','长干门','雨花门','新民门','通济门','太平门','清凉门','仪凤门','神策门','中山门','三山门','定淮门','石城门','草场门','江东门','水西门','后宰门','双桥门','夹岗门','安德门','卡子门','尧化门','凤台门','上坊门','沧波门','上元门','钟阜门','金川门'];
+
+    for(var i=0;i<lnglats.length;i++){
+        var lnglat=lnglats[i];
+        var marker = new AMap.Marker({
+            content: labels[i],
+            position: new AMap.LngLat(lnglat[0],lnglat[1]),
+            icon: 'temp/gate.png',
+            offset: new AMap.Pixel(-13, -30)
+        })
+        //markers.push(marker);
+        /*marker.setLabel({
+                offset: new AMap.Pixel(20, 20),
+                content: labels[i]
+            })*/
+        marker.setMap(map);
+
+    }
+
+    var mass = new AMap.MassMarks(citys, {
+        opacity: 1.0,
+        zIndex: 111,
+        cursor: 'pointer',
+        style: style
+    });
+
+    var marker1 = new AMap.Marker({content: ' ', map: map});
+
+    mass.on('mouseover', function (e) {
+
+        marker1.setPosition(e.data.lnglat);
+        marker1.setLabel({content: e.data.name})
+    });
+    mass.setMap(map)
+    
+
+    function setStyle(multiIcon) {
+        if (multiIcon) {
+            mass.setStyle(style);
+        } else {
+            mass.setStyle(style[2]);
+        }
+    }
+
+//绘制城墙
+      var polylinePath = [
+        new AMap.LngLat(118.781807,32.012776),
+        new AMap.LngLat(118.777515,32.0137),
+        new AMap.LngLat(118.767044,32.015738),
+        new AMap.LngLat(118.769791,32.02971),
+        new AMap.LngLat(118.768246,32.036841),
+        new AMap.LngLat(118.765328,32.043243),
+        new AMap.LngLat(118.756573,32.0495),
+        new AMap.LngLat(118.751251,32.054883),
+        new AMap.LngLat(118.750049,32.062936),
+        new AMap.LngLat(118.747131,32.070115),
+        new AMap.LngLat(118.746616,32.090914),
+        new AMap.LngLat(118.744856,32.094295),
+        new AMap.LngLat(118.750714,32.095895),
+        new AMap.LngLat(118.75507,32.087133),
+        new AMap.LngLat(118.768202,32.089969),
+        new AMap.LngLat(118.784081,32.088442),
+        new AMap.LngLat(118.788759,32.088566),
+        new AMap.LngLat(118.79016,32.085304),
+        new AMap.LngLat(118.786784,32.084096),
+        new AMap.LngLat(118.787557,32.070823),
+        new AMap.LngLat(118.788673,32.065877),
+        new AMap.LngLat(118.793565,32.065295),
+        new AMap.LngLat(118.796312,32.062458),
+        new AMap.LngLat(118.808838,32.060618),
+        new AMap.LngLat(118.813167,32.058268),
+        new AMap.LngLat(118.819819,32.05514),
+        new AMap.LngLat(118.819921,32.053118),
+        new AMap.LngLat(118.828569,32.050935),
+        new AMap.LngLat(118.828049,32.048185),
+        new AMap.LngLat(118.831568,32.04513),
+        new AMap.LngLat(118.827877,32.039164),
+        new AMap.LngLat(118.825039,32.023498),
+        new AMap.LngLat(118.815856,32.021533),
+        new AMap.LngLat(118.800664,32.023716),
+        new AMap.LngLat(118.795337,32.008921),
+        new AMap.LngLat(118.781807,32.012776)
+    ];
+
+    var polylinePathout = [
+        new AMap.LngLat(118.762136,31.990862),
+        new AMap.LngLat(118.813293,31.977446),
+        new AMap.LngLat(118.836216,31.981932),
+        new AMap.LngLat(118.901909,32.016029),
+        new AMap.LngLat(118.896846,32.062903),
+        new AMap.LngLat(118.875647,32.111944),
+        new AMap.LngLat(118.834189,32.119766),
+        new AMap.LngLat(118.769936,32.115477),
+        new AMap.LngLat(118.747563,32.091586),
+        new AMap.LngLat(118.750366,32.069176),
+        new AMap.LngLat(118.746259,32.057455),
+        new AMap.LngLat(118.759870,32.031830),
+        new AMap.LngLat(118.762136,31.990862)
+    ];
+    var polyline = new AMap.Polyline({
+        path: polylinePath,
+        geodesic: true,
+        lineJoin: 'round',
+        showDir: true,
+        dirColor: 'white',
+        strokeColor: '#660033',
+        outlineColor: 'white',
+        isOutline: true,
+        strokeWeight: 6.0,
+        zIndex: 2
+    });
+    var outpolyline = new AMap.Polyline({
+        path: polylinePathout,
+        geodesic: true,
+        lineJoin: 'round',
+        showDir: true,
+        dirColor: 'white',
+        strokeColor: '#DEB887',
+        outlineColor: 'white',
+        isOutline: true,
+        strokeWeight: 6.0,
+        zIndex: 2
+    });
+
+    var addSeveralOverlayButton = document.getElementById('addSeveralOverlay');
+    var addSeveraloutButton = document.getElementById('addwall');
+
+    addSeveralOverlayButton.onclick = function () {
+        map.add([polyline]);
+    };
+    addSeveraloutButton.onclick=function(){
+        map.add([outpolyline]);
+    }
+    var addSeveralOverlayButton = document.getElementById('removeOverlayGroup');
+
+   removeOverlayGroup.onclick=function() {
+    map.remove([polyline,outpolyline]);
+    }
+</script>
+</body>
+</html>

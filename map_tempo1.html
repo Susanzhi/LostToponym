@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地名服务</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="infowindow.css"/>
+<script src="js/jquery.js"></script>
+<script src="js/html.js"></script>
+</head>
+<body>
+<!--头部-->
+<div id="header">
+  <div class="top">
+    <div class="nav" style="width:1024px">
+        <a style="padding-top: 6px;">
+            <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                <option>城门专题图</option>
+                <option value="map_gate.html">现代城门专题图</option>
+              <option value="map_gate1.html">古代城门专题图</option>
+            </select>
+        </a>
+        <a style="padding-top: 6px;">
+                <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                    <option>寺庙专题图</option>
+                    <option value="map_tempo.html">现代寺庙专题图</option>
+                    <option value="map_tempo1.html">古代寺庙专题图</option>
+                </select>
+            </a>
+        <a href="map_bridge.html">桥梁专题图</a>
+        <a href="map_palace.html">宫殿专题图</a> 
+    </div>
+    </div>
+</div>
+<!--内容部分-->
+<div id="content">
+  <div class="layout ptb_20">
+   <div class="bj_fff">
+    <div class="er_title">
+       <span class="fr">您现在的位置：<a href="index.html">首页</a>><a href="#">古代寺庙专题地图</a></span>
+       <i class="i0"></i><span class="t">专题地图</span>
+    </div>
+    <div class="line_er"></div>
+    <!--标题-->
+    <div id="content-title" class="container" style="position: relative; height: 100px; background: rgba(219, 208, 144, 0.329)">
+    <br><a class="content-title">佛系金陵————六朝古都寺庙大盘点</a>
+    </div>
+    <div id="content">
+        <div class="layout ptb_20">
+          <div class="summary_box"> <img src="images/tempophoto.jpg" class="img" />
+            <div class="text">
+              <p>南朝四百八十寺</p>
+              <br></br>
+              <p>  南朝四百八十寺，多少楼台烟雨中。据说六朝古都南京有四百八十座寺庙，南京真正的佛系生活就藏在这些寺庙中，听晨钟暮鼓，悟人生之道。“南朝四百八十寺，多少楼台烟雨中。”杜牧这两句诗中“四百八十寺”的起源就是大报恩寺。大报恩寺是中国历史上最为悠久的佛教寺庙，其前身是东吴赤乌年间（238─250年）建造的建初寺及阿育王塔，是继洛阳白马寺之后中国的第二座寺庙，也是中国南方建立的第一座佛寺，中国的佛教中心，与灵谷寺、天界寺并称为金陵三大寺，下辖百寺。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="line_er"></div>
+    <div id="container" class="container" style="position: relative; height: 407px;">
+        <div id="paleophotos"  align="center" style="position:relative;height:600px;opacity:0.7;"class="dragAble"><img src="images/sm.png" width="554px" height="407px" onmousewheel="return bbimg(this)" ondblclick="realsize()"/></div>
+    </div>
+    <div class="line_er"></div>
+    </div>
+  </div> 
+</div>
+
+<div id="footer">
+    <div class="layout">
+    </div>
+</div>
+</body>
+</html>

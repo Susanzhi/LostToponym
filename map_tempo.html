@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地名服务</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="infowindow.css"/>
+<link rel="stylesheet" href="demo-center.css"/>
+<style>
+    html, body, #container {
+        height: 100%;
+        width: 100%;
+    }
+    .amap-icon img {
+        width: 25px;
+        height: 34px;
+    }
+    .input-card .btn {
+        margin-right: 1.2rem;
+        width: 9rem;
+    }
+    .amap-marker{
+        font-size: 13px;
+        font-family:"";
+        font-weight:bold;
+        background-color:rgb(248, 242, 225);
+        color:black;
+    }
+    .input-card .btn:last-child {
+        margin-right: 0;
+    }
+    .amap-marker-label{
+      position: absolute;
+      z-index: 2;
+      border: 1px solid #ccc;
+      background-color: white;
+      white-space: nowrap;
+      cursor: default;
+      padding: 3px;
+      font-size: 12px;
+      line-height: 14px;
+   }
+</style>
+<script src="js/jquery.js"></script>
+<script src="js/html.js"></script>
+</head>
+<body>
+<!--头部-->
+<div id="header">
+  <div class="top">
+    <div class="nav" style="width:1024px">
+        <a style="padding-top: 6px;">
+            <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                <option>城门专题图</option>
+                <option value="map_gate.html">现代城门专题图</option>
+              <option value="map_gate1.html">古代城门专题图</option>
+            </select>
+        </a>
+        <a style="padding-top: 6px;">
+                <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                    <option>寺庙专题图</option>
+                    <option value="map_tempo.html">现代寺庙专题图</option>
+                    <option value="map_tempo1.html">古代寺庙专题图</option>
+                </select>
+            </a>
+        <a href="map_bridge.html">桥梁专题图</a>
+        <a href="map_palace.html">宫殿专题图</a> 
+    </div>
+    </div>
+</div>
+<!--内容部分-->
+<div id="content">
+  <div class="layout ptb_20">
+   <div class="bj_fff">
+    <div class="er_title">
+       <span class="fr">您现在的位置：<a href="index.html">首页</a>><a href="#">现代寺庙专题地图</a></span>
+       <i class="i0"></i><span class="t">专题地图</span>
+    </div>
+    <div class="line_er"></div>
+    <!--标题-->
+    <div id="content-title" class="container" style="position: relative; height: 100px; background: rgba(219, 208, 144, 0.329)">
+    <br><a class="content-title">佛系金陵————六朝古都寺庙大盘点</a>
+    </div>
+    <div id="content">
+        <div class="layout ptb_20">
+          <div class="summary_box"> <img src="images/tempophoto.jpg" class="img" />
+            <div class="text">
+              <p>南朝四百八十寺</p>
+              <br></br>
+              <p>  南朝四百八十寺，多少楼台烟雨中。据说六朝古都南京有四百八十座寺庙，南京真正的佛系生活就藏在这些寺庙中，听晨钟暮鼓，悟人生之道。“南朝四百八十寺，多少楼台烟雨中。”杜牧这两句诗中“四百八十寺”的起源就是大报恩寺。大报恩寺是中国历史上最为悠久的佛教寺庙，其前身是东吴赤乌年间（238─250年）建造的建初寺及阿育王塔，是继洛阳白马寺之后中国的第二座寺庙，也是中国南方建立的第一座佛寺，中国的佛教中心，与灵谷寺、天界寺并称为金陵三大寺，下辖百寺。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="line_er"></div>
+    <div id="container" class="container" style="position: relative; height: 600px;">
+    </div>
+    <div class="line_er"></div>
+    </div>
+  </div> 
+</div>
+
+<div id="footer">
+    <div class="layout">
+    </div>
+</div>
+<!--<script src="./script/loca.js"></script>-->
+<script type="text/javascript" src='data.js'></script>
+<script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.12&key=8dcc840c1b491924f1bd17dc2c85752a"></script>
+<!--引入UI组件库（1.0版本） -->
+<script src="https://webapi.amap.com/ui/1.0/main.js"></script>
+<script type="text/javascript" language="javascript" src="js/demo.js"></script>
+<script src="https://a.amap.com/Loca/static/dist/jquery.min.js"></script>
+<script src="https://a.amap.com/Loca/static/mock/districts.js"></script>
+<script>
+    var map = new AMap.Map('container', {
+      mapStyle: 'amap://styles/fresh',
+        zoom: 13,
+        features: ['bg', 'road'],
+        center: [118.796623,32.059352]
+        //viewMode: '3D'
+    });
+    
+    AMap.plugin([
+        'AMap.ControlBar',
+    ], function(){
+
+        // 添加 3D 罗盘控制
+        map.addControl(new AMap.ControlBar());
+    });
+    AMap.plugin([
+        'AMap.Scale',
+    ], function(){
+
+        // 添加 3D 罗盘控制
+        map.addControl(new AMap.Scale());
+    });
+    var style = [{
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(6,6),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/tempo.png',
+        anchor: new AMap.Pixel(4, 4),
+        size: new AMap.Size(25, 25)
+    }, {
+        url: 'temp/gate.png',
+        anchor: new AMap.Pixel(3, 3),
+        size: new AMap.Size(25, 25)
+    }
+    ];
+    var markers=[];
+    var lnglats=[[118.867826,32.054982],[118.956907,32.151489],[118.795257,32.061095],[118.781181,32.009477],[118.764908,31.92684],[119.046693,31.578191],[118.743195,31.889671],[118.514755,32.096346],[118.76072,32.049228],[118.873148,31.902926],[118.744785,32.092274],[118.805574,32.060632],[118.872906,32.020361],[118.796098,32.01986],[118.772825,32.017682],[118.792691,32.010206],[118.782077,32.006807],[118.788815,32.020729],[118.763131,31.979272],[118.667851,32.098188],[118.620211,32.07991],[118.719374,31.785288],[118.788638,32.032309],[118.745627,32.094291],[118.795251,32.073231],[118.777883,32.029496],[118.777123,32.100692],[118.8879,32.299131],[118.666878,32.13038],[118.75466,32.217045],[118.770964,32.001242],[118.817022,32.049552],[118.775562,32.002295],[118.967676,31.949275],[118.739059,31.308685],[118.755725,32.065844],[118.774695,32.029173],[118.74776,31.89286],[118.945465,32.136734],[119.556655,31.405037],[118.77543,32.045672],[118.773695,32.085513]];
+    var labels=["灵谷寺","栖霞寺","鸡鸣寺","大报恩寺","龙泉禅寺","无想寺","宏觉寺","惠济寺","清凉寺","定林寺","静海寺","玄奘寺","大仙寺","鹫峰寺","古瓦官寺","光宅寺","高座寺","建初寺","夫子庙","天隆寺","石佛寺","极乐寺","关帝庙","龙王庙","地藏古寺","喇嘛庙","清真寺","张王庙","灵岩禅寺","定山寺","长芦寺","天界寺","香林寺","普德寺","云居寺","正觉寺","古林寺","卧佛寺","幽栖寺","衡阳寺","善庆寺","永庆寺","紫竹林禅寺"];
+
+
+    for(var i=0;i<lnglats.length;i++){
+        var lnglat=lnglats[i];
+        var marker = new AMap.Marker({
+            content: labels[i],
+            position: new AMap.LngLat(lnglat[0],lnglat[1]),
+            icon: 'temp/gate.png',
+            offset: new AMap.Pixel(-13, -30)
+        })
+        //markers.push(marker);
+        /*marker.setLabel({
+                offset: new AMap.Pixel(20, 20),
+                content: labels[i]
+            })*/
+        marker.setMap(map);
+
+    }
+    
+
+    var mass = new AMap.MassMarks(citys, {
+        opacity: 1.0,
+        zIndex: 111,
+        cursor: 'pointer',
+        style: style
+    });
+
+    var marker1 = new AMap.Marker({content: ' ', map: map});
+
+    mass.on('mouseover', function (e) {
+
+        marker1.setPosition(e.data.lnglat);
+        marker1.setLabel({
+            content: e.data.name
+        })
+    });
+    
+    mass.setMap(map)
+    
+
+    function setStyle(multiIcon) {
+        if (multiIcon) {
+            mass.setStyle(style);
+        } else {
+            mass.setStyle(style[2]);
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>地名服务</title>
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="infowindow.css"/>
+<script src="js/jquery.js"></script>
+<script src="js/html.js"></script>
+</head>
+<body>
+<!--头部-->
+<div id="header">
+  <div class="top">
+    <div class="nav" style="width:1024px">
+        <a style="padding-top: 6px;">
+            <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                <option>城门专题图</option>
+                <option value="map_gate.html">现代城门专题图</option>
+              <option value="map_gate1.html">古代城门专题图</option>
+            </select>
+        </a>
+        <a style="padding-top: 6px;">
+                <select  name="select" onchange="window.open(this.options[this.selectedIndex].value,target='_self')">
+                    <option>寺庙专题图</option>
+                    <option value="map_tempo.html">现代寺庙专题图</option>
+                    <option value="map_tempo1.html">古代寺庙专题图</option>
+                </select>
+            </a>
+        <a href="map_bridge.html">桥梁专题图</a>
+        <a href="map_palace.html">宫殿专题图</a> 
+    </div></div>
+</div>
+<!--内容部分-->
+<div id="content">
+  <div class="layout ptb_20">
+   <div class="bj_fff">
+    <div class="er_title">
+       <span class="fr">您现在的位置：<a href="index.html">首页</a>><a href="#">桥梁专题地图</a></span>
+       <i class="i0"></i><span class="t">专题地图</span>
+    </div>
+    <div class="line_er"></div>
+    <!--标题-->
+    <div id="content-title" class="container" style="position: relative; height: 100px; background: rgba(219, 208, 144, 0.329)">
+    <br><a class="content-title">金陵桥梁</a>
+    </div>
+    <div id="content">
+        <div class="layout ptb_20">
+          <div class="summary_box"> <img src="images/bridgephoto.jpg" class="img" />
+            <div class="text">
+              <p>明代桥梁一览</p>
+              <br></br>
+              <p>  江南佳丽地，金陵帝王州”，南京拥有着6000多年文明史、近2600年建城史和近500年的建都史，是中国四大古都之一，有“六朝古都”、“十朝都会”之称，是中华文明的重要发祥地。历史上南京建桥有两个鼎盛时期，一个是在南北朝时期，一个就是朱明洪武建城期。通过资料整理，其中既有继承了前朝旧址的也存在大量新修桥梁，如城内御河上的青龙、白虎桥等。</p>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="line_er"></div>
+    <div id="paleophotos" style="position:relative;height:600px"><img src="images/ql.png" width="1020px" height="600px"/></div>
+    <div id="container" class="container" style="position: relative; height: 600px;">
+    </div>
+    <div class="line_er"></div>
+    </div>
+  </div> 
+</div>
+
+<div id="footer">
+    <div class="layout">
+    </div>
+</div>
+<!--<script src="./script/loca.js"></script>-->
+<script src="https://webapi.amap.com/loca?v=1.2.0&key=8dcc840c1b491924f1bd17dc2c85752a"></script>
+<!--引入UI组件库（1.0版本） -->
+<script src="https://webapi.amap.com/ui/1.0/main.js"></script>
+<script type="text/javascript" language="javascript" src="js/demo.js"></script>
+<script src="https://a.amap.com/Loca/static/dist/jquery.min.js"></script>
+<script src="https://a.amap.com/Loca/static/mock/districts.js"></script>
+<script>
+    var map = Loca.create('container', {
+        mapStyle: 'amap://styles/whitesmoke',
+        zoom: 13,
+        center: [118.796623,32.059352],
+        features: ['bg', 'road'],
+        // Loca 自 1.2.0 起 viewMode 模式默认为 3D，如需 2D 模式，请显示配置。
+        viewMode: '3D'
+    });
+    map.on('mapload', function () {
+            map.getMap().plugin(['AMap.ControlBar'], function () {
+                var toolBar = new AMap.ControlBar();
+                map.getMap().addControl(toolBar);
+            });
+        });
+        
+    map.on('mapload', function () {
+            map.getMap().plugin(['AMap.Scale'], function () {
+                var scale = new AMap.Scale();
+                map.getMap().addControl(scale);
+            });
+        });
+
+    var layer = Loca.visualLayer({
+        eventSupport: true,    // selectStyle 配置需要开启 eventSupport: true
+        container: map,
+        type: 'point',
+        shape: 'image'
+    });
+
+    layer.on('mousemove', function (ev) {
+        // 事件类型
+        var type = ev.type;
+        // 当前元素的原始数据
+        var rawData = ev.rawData;
+        // 原始鼠标事件
+        var originalEvent = ev.originalEvent;
+
+        openInfoWin(map.getMap(), originalEvent, {
+            '名称': rawData.name,
+            '位置': rawData.center,
+            '简介': rawData.introduce,
+            '    ':rawData.info
+        });
+    });
+    layer.on('mouseleave', function (ev) {
+        closeInfoWin();
+    });
+
+
+    var data = [
+    {'name' : '天生桥' , 'center' : '118.990778,31.645348' , 'introduce' : '天生桥位于南京市溧水区，在宁高公路西侧，距县城3公里， 距禄口国际机场18公里，面积1．1平方公里。是明太祖朱元璋定都南京后，为沟通南京地区与两浙地区的漕运而建。也是中国仅存的古代人工运河上，横跨两岸巨石而成的天生桥，现已列为江苏省文物保护单位。'},
+    {'name' : '逸仙桥' , 'center' : '118.804028,32.040421' , 'introduce' : '逸仙桥位于南京秦淮区。这座桥原先是一座十分破旧的石桥，紧临明故宫皇城西安门，是为迎葬孙中山灵柩筑中山大道时建。1929年建桥，名逸仙桥，1963年、1997年改建，仍称原名。'},
+    {'name' : '七桥瓮' , 'center' : '118.835703,32.007406' , 'introduce' : '七桥瓮位于南京市秦淮区红花街道七桥村，是南京现存体量最大的古桥，全国重点文物保护单位，于明朝正统五年（1440年）建成，比重修的卢沟桥还要早4年，是中国唯一一个用“瓮”而不是“桥”来命名的古桥。'},
+    {'name' : '玄津桥' , 'center' : '118.80373,32.039622' , 'introduce' : '玄津桥在中山东路逸仙桥南，为三孔石拱桥，横跨古杨吴城壕，长41。6米，宽19。1米，始建于明初。原桥面、桥栏两端各有一对石狮。明末桥两侧还建有游廊。1981年桥面改沥青路面，桥栏用水泥补砌。'},
+    {'name' : '文德桥' , 'center' : '118.789278,32.019334' , 'introduce' : '文德桥位于南京市秦淮区夫子庙秦淮风光带，始建于明万历年间，其后多经翻建。“文德桥”的“文德”二字取自儒家思想“文章道德天下第一”的意思。'},
+    {'name' : '武定桥' , 'center' : '118.78599,32.01766' , 'introduce' : '文德桥向西南不远处，有一座桥叫武定桥，它建于南宋淳熙年间，当时叫嘉瑞浮桥，因其在长乐渡之上，又叫上浮桥，当时长乐渡叫下浮桥。'},
+    {'name' : '文源桥' , 'center' : '118.791479,32.020648' , 'introduce' : '南京夫子庙泮池东面的文源桥，以前叫白鹭桥，再前则叫黄公桥，是为纪念一位“三元及第”、名叫黄观的侍讲学士为建文帝殉难而兴建的。'},
+    {'name' : '文正桥' , 'center' : '118.794826,32.022765' , 'introduce' : '此桥以西20米原有利涉桥，建于清顺治三年（1646年）。康熙二年（1663年）木桥改建石桥，民国时期利涉桥严重破损拆除，桥墩尚存。'},
+    {'name' : '长干桥' , 'center' : '118.78141,32.011323' , 'introduce' : '长干桥位于南京市秦淮区中华门外，跨外秦淮河，长干桥始建于南唐，为南唐宫殴御街直达城外长干里的必经之道。'},
+    {'name' : '朱雀桥' , 'center' : '118.784606,32.014556' , 'introduce' : '朱雀桥，历史上又称大航、大桁、朱雀航，为东晋时建在内秦淮河上的一座浮桥。该桥应在今中华门城内的镇淮桥和武定桥之间，正当古长乐渡之处。'},
+    {'name' : '淮清桥' , 'center' : '118.793871,32.023685' , 'introduce' : '附近乌衣巷有东晋名相王导、谢安的宅院。唐诗人刘禹锡在怀古名篇《乌衣巷》诗中曰：“朱雀桥边野草花，乌衣巷口夕阳斜。旧时王谢堂前燕，飞入寻常百姓家。”这首脍炙人口、千古传咏的名作产生后，乌衣巷和朱雀桥便闻名于世。'},
+    {'name' : '九龙桥' , 'center' : '118.834859,31.834848' , 'introduce' : '九龙桥位于江苏省南京市秦淮区东水关东侧，为一座横跨秦淮河的南北向无铰五孔石拱桥，长51米，宽12.4米，高5.7米。该桥建于明朝初年，因邻近通济门又称通济桥（今在其东侧建有新的通济门桥）。'},
+    {'name' : '南京长江大桥' , 'center' : '118.744305,32.113205' , 'introduce' : '南京长江大桥是南京的标志性建筑、江苏的文化符号，共和国的辉煌，也是中国著名景点之一，被列为新金陵四十八景。它也是中国桥梁建设的重要里程碑。'},
+    {'name' : '南京大胜关大桥' , 'center' : '118.661038,31.965278' , 'introduce' : '大胜关长江大桥代表了中国当前桥梁建造的最高水平，被誉为“世界铁路桥之最”，是世界首座六线铁路大桥。'}
+]
+    layer.setData(data, {
+        // 指定经纬度所在字段
+        type: 'json',
+        lnglat: 'center'
+
+    });
+   layer.setOptions({
+    source: function (res) {
+            return 'temp/qiao.jpg';
+        },
+        style: {
+            size: 45
+        }
+    });
+    layer.render();
+
+</script>
+</body>
+</html>

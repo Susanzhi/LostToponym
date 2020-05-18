@@ -1,0 +1,58 @@
+html,body{
+	background:#fff;
+	font-size: 100%;
+	font-family: 'DidactGothic';
+}
+body a{
+	transition: 0.5s all;
+	-webkit-transition: 0.5s all;
+	-o-transition: 0.5s all;
+	-moz-transition: 0.5s all;
+	-ms-transition: 0.5s all;
+}
+ ul{
+	padding: 0;
+	margin: 0;
+}
+h1,h2,h3,h4,h5,h6,label,p{
+	margin:0;	
+}
+/*--header--*/
+.header {
+	background:url(../images/smh.jpg) no-repeat;
+	width:100%;
+	background-size:cover;
+	-webkit-background-size:cover;
+	-o-background-size:cover;
+	-moz-background-size:cover;
+	-ms-background-size:cover;
+	min-height:750px;
+}
+
+.logo {
+	text-align: center;
+	margin: 2em 0;
+}
+.logo h1 a{
+	
+	display:block;	
+	text-decoration:none;
+	color:rgb(192, 154, 72);
+}
+.logo h1{
+	font-size:2.5em;
+	  font-family: 'Cinzel-Bold';
+}
+.copyrights{
+	text-indent:-9999px;
+	height:0;
+	line-height:0;
+	font-size:0;
+	overflow:hidden;
+}
+/*--//header--*/
+
+
+.nav{position:absolute; width:894px; height:46px; line-height:46px; left:50%; margin-left:-512px; bottom:25px; background:url(../images/nav.jpg) no-repeat; padding:0px 65px}
+.nav a{display:block; width:25%; height:46px; float:left; text-align:center; color:#584036; font-size:14px}
+.nav a:hover,.nav a.hover{background:url(../images/nava.jpg) no-repeat center center}
